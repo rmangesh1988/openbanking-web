@@ -8,7 +8,7 @@ UI for customer resource, to fetch and update customer data.
 
 ### Installing steps
 ```
-1.Checkout the project
+1.Checkout the project (git clone https://github.com/rmangesh1988/openbanking-web.git)
 2.cd .. to openbanking-web
 3.mvn clean install
 4.mvn spring-boot:run (Or run OpenBankingWebApplication.java)
