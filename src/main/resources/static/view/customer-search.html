@@ -1,0 +1,262 @@
+<div ng-include src="'view/api-error.html'"></div>
+
+<!-- Customer search form -->
+<form name="customerSearchForm" ng-submit="getCustomer()">
+    <div class="form-group" ng-class="{'has-error': customerSearchForm.customerId.$dirty && customerSearchForm.customerId.$invalid}">
+        <label class="col-md-2 control-label">Customer ID</label>
+        <div class="col-md-3 inputGroupContainer">
+            <input type="text" class="form-control" required ng-model="customerId" id="customerId" name="customerId" ng-pattern="/^\d{9,11}$/"/>
+
+
+        </div>
+        <button ng-disabled="customerSearchForm.$invalid || customerSearchForm.$pristine" type="submit" class="btn btn-primary" >Search</button>
+        <div class="input-group validation padding-left-185">
+            <div class="help-block" ng-messages="customerSearchForm.customerId.$error" ng-if="customerSearchForm.customerId.$dirty">
+                <span ng-message="pattern">Please enter a valid Customer ID.</span>
+                <div ng-messages-include="view/validation-messages.html"></div>
+            </div>
+        </div>
+
+    </div>
+</form>
+
+<br/>
+
+<!-- Customer search result -->
+<div ng-hide="customer == null">
+    <form name="customerForm" novalidate>
+        <table class="table table-striped">
+            <tbody>
+            <tr>
+                <td colspan="1">
+                    <div class="well form-horizontal">
+                        <fieldset>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">First Name</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                        <input id="firstName" name="firstName" placeholder="First Name" ng-model="customer.firstName" class="form-control" value="" type="text" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Customer Type</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                                        <select class="form-control" id="customerType" name="customerType" ng-options="option as option for option in customerTypeOptions" disabled ng-model="customer.customerType"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Address Line 1</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                                        <input id="addressLine1" name="addressLine1" placeholder="Address Line 1" class="form-control" ng-model="customer.address.postalAddressLine1" value="" type="text" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Address Line 3</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                                        <input id="addressLine3" name="addressLine3" placeholder="Address Line 3" class="form-control" ng-model="customer.address.postalAddressLine3" value="" type="text" readonly>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Postal Code/ZIP</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                                        <input id="postcode" name="postcode" placeholder="Postal Code/ZIP" class="form-control" ng-model="customer.address.postCode" value="" type="text" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group" ng-class="{'has-error': customerForm.email.$dirty && customerForm.email.$invalid}">
+                                <label class="col-md-4 control-label">Email</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                                        <input id="email" name="email" placeholder="Email" class="form-control" required="true" value="" ng-model="customer.email" type="email">
+                                    </div>
+                                    <div class="input-group validation">
+                                        <div class="help-block" ng-messages="customerForm.email.$error" ng-if="customerForm.email.$dirty">
+                                            <span ng-message="email">Please enter a valid email.</span>
+                                            <div ng-messages-include="view/validation-messages.html"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Country of birth</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-globe"></i></span>
+                                        <input id="countryOfBirth" name="countryOfBirth" placeholder="Country of birth" class="form-control" ng-model="customer.countryOfBirth" value="" type="text" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Country tax</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-globe"></i></span>
+                                        <input id="countryTax" name="countryTax" placeholder="Country tax" class="form-control" ng-model="customer.countryTax" value="" type="text" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </td>
+                <td colspan="1">
+                    <div class="well form-horizontal">
+                        <fieldset>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Last Name</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                        <input id="lastName" name="lastName" placeholder="Last Name" class="form-control" ng-model="customer.lastName" value="" type="text" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Company Name</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                                        <input id="companyName" name="companyName" placeholder="Company Name" class="form-control" ng-model="customer.companyName" value="" type="text" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Address Line 2</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                                        <input id="addressLine2" name="addressLine2" placeholder="Address Line 2" class="form-control" ng-model="customer.address.postalAddressLine2" value="" type="text" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">City</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                                        <input id="city" name="city" placeholder="City" class="form-control" ng-model="customer.address.postCity" value="" type="text" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Country</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                                        <input id="country" name="country" placeholder="Country" class="form-control" value="" ng-model="customer.address.postCountry" type="text" readonly>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group" ng-class="{'has-error' : customerForm.phoneNumber.$dirty && customerForm.phoneNumber.$invalid}">
+                                <label class="col-md-4 control-label">Phone Number</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                                        <input id="phoneNumber" name="phoneNumber" placeholder="Phone Number" class="form-control" required="true" ng-model="customer.phone" value="" ng-pattern="/^\+?[1-9]\d{1,14}$/" type="text">
+                                    </div>
+                                    <div class="input-group validation">
+                                        <div class="help-block" ng-messages="customerForm.phoneNumber.$error" ng-if="customerForm.phoneNumber.$dirty">
+                                            <span ng-message="pattern">Please enter a valid phone number.</span>
+                                            <div ng-messages-include="view/validation-messages.html"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Country citizenship</label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-globe"></i></span>
+                                        <input id="countryCitizenship" name="countryCitizenship" placeholder="Country citizenship" class="form-control" ng-model="customer.countryCitizenship" value="" type="text" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="align-button">
+                                <button ng-disabled="customerForm.$invalid || customerForm.$pristine" class="btn btn-primary pull-right" ng-click="patchCustomer()">Update</button>
+                                <div ng-show="patched == true">
+                                    <div class="col-md-8 alert alert-success alert-dismissible" >
+                                        <a class="close" ng-click="dismissSuccess()" aria-label="close">&times;</a>
+                                        Updated Customer!
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+
+    <h4>Customer engagements</h4>
+    <table ng-repeat="engagement in customer.customerEngagements" class="table table-striped">
+        <tbody>
+        <tr>
+            <td colspan="1">
+                <div class="well form-horizontal">
+                    <fieldset>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Engagement Type</label>
+                            <div class="col-md-8 inputGroupContainer">
+                                <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-info-sign"></i></span>
+                                    <select class="form-control" id="engagementType" name="engagementType" ng-options="option as option for option in engagementOptions" disabled ng-model="engagement.engagementType"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Friendly name</label>
+                            <div class="col-md-8 inputGroupContainer">
+                                <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-info-sign"></i></span>
+                                    <input id="friendlyName" name="friendlyName" placeholder="First Name" ng-model="engagement.friendlyName" class="form-control" value="" type="text" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </td>
+            <td colspan="1">
+                <div class="well form-horizontal">
+                    <fieldset>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Account Number</label>
+                            <div class="col-md-8 inputGroupContainer">
+                                <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-info-sign"></i></span>
+                                    <input id="accountNumber" name="accountNumber" placeholder="First Name" ng-model="engagement.accountNumber" class="form-control" required="true" value="" type="text" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Is corporate?</label>
+                            <div class="col-md-8 inputGroupContainer">
+                                <div class="input-group">
+                                    <label class="radio-inline"><input type="radio" name="corporate_{{$index}}" ng-model="engagement.corporate" ng-value="true" disabled>Yes</label>
+                                    <label class="radio-inline"><input type="radio" name="corporate_{{$index}}" ng-model="engagement.corporate" ng-value="false" disabled>No</label>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+
+</div>

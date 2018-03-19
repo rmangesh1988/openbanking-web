@@ -1,0 +1,19 @@
+<div ng-hide="apiError == null">
+    <div class="alert alert-danger alert-dismissible">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Http status :</strong> {{apiError.status}} <br/>
+        <div ng-if="apiError.data.errorNumber">
+
+            <strong>DNB Error :</strong> {{apiError.data.errorNumber}} <br/>
+            <strong>Documentation :</strong> {{apiError.data.errorDocumentation}} <br/><br/>
+            <strong>Details :</strong>
+            <div ng-repeat="errorDetail in apiError.data.errorDetails">
+                <span ng-if="errorDetail.errorField">{{errorDetail.errorField}} - </span>{{errorDetail.errorDescription}} <br/>
+            </div>
+        </div>
+        <div ng-if="!apiError.data.errorNumber">
+            <strong>Error :</strong> {{apiError.data.error}} <br/>
+        </div>
+    </div>
+    <br/><br/>
+</div>
